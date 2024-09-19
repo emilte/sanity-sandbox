@@ -10,8 +10,8 @@ import { notFound } from 'next/navigation';
 const options = { next: { revalidate: 60 } };
 
 const EVENT_QUERY = defineQuery(`*[
-    _type == "event" &&
-    slug.current == $slug
+  _type == "event" &&
+  slug.current == $slug
   ][0]{
   ...,
   "date": coalesce(date, now()),
@@ -33,7 +33,7 @@ export default async function EventPage({
   if (!event) {
     notFound();
   }
-  const { name, date, headline, image, details, eventType, doorsOpen, venue, tickets } = event;
+  const { name, date, headline, image, details, format, doorsOpen, venue, tickets } = event;
   const eventImageUrl = image ? urlFor(image)?.width(550).height(310).url() : null;
   const eventDate = new Date(date).toDateString();
   const eventTime = new Date(date).toLocaleTimeString();
@@ -54,9 +54,9 @@ export default async function EventPage({
         />
         <div className="flex flex-col justify-center space-y-4">
           <div className="space-y-4">
-            {eventType ? (
+            {format ? (
               <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800 capitalize">
-                {eventType.replace('-', ' ')}
+                {format.replace('-', ' ')}
               </div>
             ) : null}
             {name ? <h1 className="text-4xl font-bold tracking-tighter mb-8">{name}</h1> : null}

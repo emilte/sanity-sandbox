@@ -5,6 +5,14 @@ const fields = [
     name: 'name',
     type: 'string',
   }),
+  defineField({
+    name: 'city',
+    type: 'string',
+  }),
+  defineField({
+    name: 'country',
+    type: 'string',
+  }),
 ];
 
 export const venueType = defineType({

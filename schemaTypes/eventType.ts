@@ -17,14 +17,14 @@ const fields = [
     group: ['details'],
   }),
   defineField({
-    name: 'eventType',
+    name: 'format',
     type: 'string',
+    title: 'Event format',
     options: {
       list: ['in-person', 'virtual'],
       layout: 'radio',
     },
-    readOnly: ({ value, document }) => !value && document?.eventType === 'virtual',
-    group: ['details'],
+    validation: (rule) => rule.required(),
   }),
   defineField({
     name: 'date',
@@ -47,7 +47,7 @@ const fields = [
     to: [{ type: 'venue' }],
     validation: (rule) =>
       rule.custom((value, context) => {
-        if (value && context?.document?.eventType === 'virtual') {
+        if (value && context?.document?.format === 'virtual') {
           return 'Only in-person events can have a venue';
         }
 
