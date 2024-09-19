@@ -1,6 +1,6 @@
-import {CalendarIcon} from '@sanity/icons'
-import {defineField, defineType} from 'sanity'
-import {DoorsOpenInput} from './components/DoorsOpenInput'
+import { CalendarIcon } from '@sanity/icons';
+import { defineField, defineType } from 'sanity';
+import { DoorsOpenInput } from './components/DoorsOpenInput';
 
 const fields = [
   defineField({
@@ -11,9 +11,9 @@ const fields = [
   defineField({
     name: 'slug',
     type: 'slug',
-    options: {source: 'name'},
+    options: { source: 'name' },
     validation: (rule) => rule.required().error(`Required to generate a page on the website`),
-    hidden: ({document}) => !document?.name,
+    hidden: ({ document }) => !document?.name,
     group: ['details'],
   }),
   defineField({
@@ -23,7 +23,7 @@ const fields = [
       list: ['in-person', 'virtual'],
       layout: 'radio',
     },
-    readOnly: ({value, document}) => !value && document?.eventType === 'virtual',
+    readOnly: ({ value, document }) => !value && document?.eventType === 'virtual',
     group: ['details'],
   }),
   defineField({
@@ -44,21 +44,21 @@ const fields = [
   defineField({
     name: 'venue',
     type: 'reference',
-    to: [{type: 'venue'}],
+    to: [{ type: 'venue' }],
     validation: (rule) =>
       rule.custom((value, context) => {
         if (value && context?.document?.eventType === 'virtual') {
-          return 'Only in-person events can have a venue'
+          return 'Only in-person events can have a venue';
         }
 
-        return true
+        return true;
       }),
     group: ['details'],
   }),
   defineField({
     name: 'headline',
     type: 'reference',
-    to: [{type: 'artist'}],
+    to: [{ type: 'artist' }],
     group: ['details'],
   }),
   defineField({
@@ -69,7 +69,7 @@ const fields = [
   defineField({
     name: 'details',
     type: 'array',
-    of: [{type: 'block'}],
+    of: [{ type: 'block' }],
     group: ['details'],
   }),
   defineField({
@@ -77,7 +77,7 @@ const fields = [
     type: 'url',
     group: ['details'],
   }),
-]
+];
 
 export const eventType = defineType({
   name: 'event',
@@ -86,8 +86,8 @@ export const eventType = defineType({
   icon: CalendarIcon,
 
   groups: [
-    {name: 'details', title: 'Details'},
-    {name: 'editorial', title: 'Editorial'},
+    { name: 'details', title: 'Details' },
+    { name: 'editorial', title: 'Editorial' },
   ],
   fields: fields,
   // Update the preview key in the schema
@@ -99,8 +99,8 @@ export const eventType = defineType({
       date: 'date',
       image: 'image',
     },
-    prepare({name, venue, artist, date, image}) {
-      const nameFormatted = name || 'Untitled event'
+    prepare({ name, venue, artist, date, image }) {
+      const nameFormatted = name || 'Untitled event';
       const dateFormatted = date
         ? new Date(date).toLocaleDateString(undefined, {
             month: 'short',
@@ -109,13 +109,13 @@ export const eventType = defineType({
             hour: 'numeric',
             minute: 'numeric',
           })
-        : 'No date'
+        : 'No date';
 
       return {
         title: artist ? `${nameFormatted} (${artist})` : nameFormatted,
         subtitle: venue ? `${dateFormatted} at ${venue}` : dateFormatted,
         media: image || CalendarIcon,
-      }
+      };
     },
   },
-})
+});

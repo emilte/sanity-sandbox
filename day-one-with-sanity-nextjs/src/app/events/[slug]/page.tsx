@@ -1,11 +1,11 @@
-import imageUrlBuilder from "@sanity/image-url";
-import { defineQuery, PortableText } from "next-sanity";
+import imageUrlBuilder from '@sanity/image-url';
+import { PortableText, defineQuery } from 'next-sanity';
 
-import { client } from "@/sanity/client";
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { client } from '@/sanity/client';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 const options = { next: { revalidate: 60 } };
 
@@ -22,9 +22,7 @@ const EVENT_QUERY = defineQuery(`*[
 
 const { projectId, dataset } = client.config();
 const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
+  projectId && dataset ? imageUrlBuilder({ projectId, dataset }).image(source) : null;
 
 export default async function EventPage({
   params,
@@ -35,25 +33,11 @@ export default async function EventPage({
   if (!event) {
     notFound();
   }
-  const {
-    name,
-    date,
-    headline,
-    image,
-    details,
-    eventType,
-    doorsOpen,
-    venue,
-    tickets,
-  } = event;
-  const eventImageUrl = image
-    ? urlFor(image)?.width(550).height(310).url()
-    : null;
+  const { name, date, headline, image, details, eventType, doorsOpen, venue, tickets } = event;
+  const eventImageUrl = image ? urlFor(image)?.width(550).height(310).url() : null;
   const eventDate = new Date(date).toDateString();
   const eventTime = new Date(date).toLocaleTimeString();
-  const doorsOpenTime = new Date(
-    new Date(date).getTime() - doorsOpen * 60000
-  ).toLocaleTimeString();
+  const doorsOpenTime = new Date(new Date(date).getTime() - doorsOpen * 60000).toLocaleTimeString();
 
   return (
     <main className="container mx-auto grid gap-12 p-12">
@@ -62,8 +46,8 @@ export default async function EventPage({
       </div>
       <div className="grid items-top gap-12 sm:grid-cols-2">
         <Image
-          src={eventImageUrl || "https://via.placeholder.com/550x310"}
-          alt={name || "Event"}
+          src={eventImageUrl || 'https://via.placeholder.com/550x310'}
+          alt={name || 'Event'}
           className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full"
           height="310"
           width="550"
@@ -72,14 +56,10 @@ export default async function EventPage({
           <div className="space-y-4">
             {eventType ? (
               <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800 capitalize">
-                {eventType.replace("-", " ")}
+                {eventType.replace('-', ' ')}
               </div>
             ) : null}
-            {name ? (
-              <h1 className="text-4xl font-bold tracking-tighter mb-8">
-                {name}
-              </h1>
-            ) : null}
+            {name ? <h1 className="text-4xl font-bold tracking-tighter mb-8">{name}</h1> : null}
             {headline?.name ? (
               <dl className="grid grid-cols-2 gap-1 text-sm font-medium sm:gap-2 lg:text-base">
                 <dd className="font-semibold">Artist</dd>
@@ -119,10 +99,7 @@ export default async function EventPage({
             </div>
           )}
           {tickets && (
-            <a
-              className="flex items-center justify-center rounded-md bg-blue-500 p-4 text-white"
-              href={tickets}
-            >
+            <a className="flex items-center justify-center rounded-md bg-blue-500 p-4 text-white" href={tickets}>
               Buy Tickets
             </a>
           )}

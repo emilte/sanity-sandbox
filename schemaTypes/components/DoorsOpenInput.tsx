@@ -1,12 +1,12 @@
-import { Stack, Text } from '@sanity/ui'
-import { NumberInputProps, useFormValue } from 'sanity'
+import { Stack, Text } from '@sanity/ui';
+import { type NumberInputProps, useFormValue } from 'sanity';
 
 function subtractMinutesFromDate(date: string, minutes: number) {
-  return new Date(new Date(date).getTime() - minutes * 60000)
+  return new Date(new Date(date).getTime() - minutes * 60000);
 }
 
 export function DoorsOpenInput(props: NumberInputProps) {
-  const date = useFormValue(['date']) as string | undefined
+  const date = useFormValue(['date']) as string | undefined;
 
   return (
     <Stack space={3}>
@@ -24,5 +24,5 @@ export function DoorsOpenInput(props: NumberInputProps) {
         </Text>
       ) : null}
     </Stack>
-  )
+  );
 }

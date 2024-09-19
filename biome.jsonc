@@ -1,0 +1,57 @@
+// https://biomejs.dev/reference/configuration/
+{
+  "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "include": [
+      "*.js",
+      "*.jsx",
+      "*.ts",
+      "*.tsx",
+      "*.json",
+      "*.jsonc"
+      // "*.css", // Not supported yet.
+      // "*.scss" // Not supported yet.
+    ],
+    "ignore": ["docs/", "venv/", "static/", "node_modules/", "htmlcov/", ".next/**/*"]
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "linter": {
+    "rules": {
+      "complexity": {
+        "useArrowFunction": "off", // Functions are often more readable.
+        "noForEach": "off"
+      }
+    },
+    "ignore": [
+      ".vscode/" // Biome doesn't like comments in '.json' files.
+    ]
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true // Uses .gitignore
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  // This doesn't seem to have been implemented yet.
+  // https://biomejs.dev/internals/language-support/
+  "css": {
+    "parser": {
+      "cssModules": true
+    },
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "single"
+    },
+    "linter": {
+      "enabled": true
+    }
+  }
+}
